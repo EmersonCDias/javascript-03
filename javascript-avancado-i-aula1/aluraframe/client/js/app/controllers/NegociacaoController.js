@@ -1,7 +1,7 @@
 /* ANOTAÇÕES
 ============================================================================================================
 
-CONTROLLER: Captura os dados informados pelo usuário e passa para p MODEL
+CONTROLLER: Captura os dados informados pelo usuário e passa para o MODEL
 Obs: Convenciona-se a criar a classes com letra maiúscula
 
 ============================================================================================================
@@ -18,6 +18,13 @@ class NegociacaoController {
         this._inputValor = $docGEBI("valor");
 
         this._listaNegociacoes = new ListaNegociacoes();
+
+        this._negociacoesView = new NegociacoesView($docGEBI("negociacoesView"));
+        this._negociacoesView.update(this._listaNegociacoes);
+        
+        this._msg = new Mensagem();
+        this._msgView = new MensagemView($docGEBI("mensagemView"));
+        this._msgView.update(this._msg);
     }
 
     adiciona(event) {
@@ -25,9 +32,12 @@ class NegociacaoController {
         event.preventDefault();
 
         this._listaNegociacoes.adiciona(this._criaNegociacao());
-        this._limpaFormulario();
+        this._negociacoesView.update(this._listaNegociacoes);
 
-        console.log(this._listaNegociacoes.negociacoes);
+        this._msg.texto = "Negociação adicionada com sucesso!";
+        this._msgView.update(this._msg);
+        
+        this._limpaFormulario();
     }
 
     _criaNegociacao() {
